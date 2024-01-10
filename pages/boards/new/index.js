@@ -24,7 +24,8 @@ import {
 
 /*
   To do
-  1. 아이디 or 비밀번호를 올바르게 입력 안했을 때 문구 발생하도록 하기(span or div 등등)
+  1. git push 하기
+  2. 아이디 or 비밀번호를 올바르게 입력 안했을 때 문구 발생하도록 하기(span or div 등등)
 */
 import { useForm } from "react-hook-form";
 
