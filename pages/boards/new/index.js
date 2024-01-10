@@ -24,13 +24,16 @@ import {
 
 /*
   To do
-  1. git push 하기
-  2. 아이디 or 비밀번호를 올바르게 입력 안했을 때 문구 발생하도록 하기(span or div 등등)
+  1. 아이디 or 비밀번호를 올바르게 입력 안했을 때 문구 발생하도록 하기(span or div 등등)
 */
 import { useForm } from "react-hook-form";
 
 export default function BoardsNewPage() {
-  const { register, handleSubmit } = useForm();
+  const {
+    register,
+    handleSubmit,
+    formState: { isSubmitting, isSubmitted, errors },
+  } = useForm();
   const onSubmit = (data) => console.log(data);
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -42,10 +45,17 @@ export default function BoardsNewPage() {
             <Writer
               type="text"
               placeholder="이름을 적어주세요."
+              aria-invalid={
+                isSubmitted ? (errors.Writer ? "true" : "false") : undefined
+              }
               {...register("Writer", {
                 required: "작성자는 필수 입니다.",
               })}
             />
+            <br></br>
+            {errors.Writer && (
+              <small role="alert">{errors.Writer.message}</small>
+            )}
           </InputWrapper>
           <InputWrapper>
             <Label>비밀번호</Label>
@@ -60,11 +70,21 @@ export default function BoardsNewPage() {
                 },
               })}
             />
+            <br></br>
+            {errors.Password && (
+              <small role="alert">{errors.Password.message}</small>
+            )}
           </InputWrapper>
         </WriterWrapper>
         <InputWrapper>
           <Label>제목</Label>
-          <Subject type="text" placeholder="제목을 작성해주세요." />
+          <Subject
+            type="text"
+            placeholder="제목을 작성해주세요."
+            {...register("Subject", {
+              required: "제목 작성은 필수입니다.",
+            })}
+          />
         </InputWrapper>
         <InputWrapper>
           <Label>내용</Label>
@@ -91,9 +111,23 @@ export default function BoardsNewPage() {
         </ImageWrapper>
         <OptionWrapper>
           <Label>메인설정</Label>
-          <RadioButton type="radio" id="youtube" name="radio-button" />
+          <RadioButton
+            type="radio"
+            id="youtube"
+            name="radio-button"
+            {...register("RadioButton", {
+              required: true,
+            })}
+          />
           <RadioLabel htmlFor="youtube">유튜브</RadioLabel>
-          <RadioButton type="radio" id="image" name="radio-button" />
+          <RadioButton
+            type="radio"
+            id="image"
+            name="radio-button"
+            {...register("RadioButton", {
+              required: true,
+            })}
+          />
           <RadioLabel htmlFor="image">사진</RadioLabel>
         </OptionWrapper>
         <ButtonWrapper>
