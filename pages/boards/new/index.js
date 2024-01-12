@@ -34,7 +34,8 @@ export default function BoardsNewPage() {
     handleSubmit,
     formState: { isSubmitting, isSubmitted, errors },
   } = useForm();
-  const onSubmit = (data) => console.log(data);
+  // const onSubmit = (data) => console.log(data);
+  const onSubmit = (data) => alert("게시글이 등록되었습니다.");
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <Wrapper>
@@ -86,10 +87,20 @@ export default function BoardsNewPage() {
             })}
           />
         </InputWrapper>
+        <br></br>
+        {errors.Subject && <small role="alert">{errors.Subject.message}</small>}
         <InputWrapper>
           <Label>내용</Label>
-          <Contents placeholder="내용을 작성해주세요." />
+          <Contents
+            placeholder="내용을 작성해주세요."
+            {...register("Contents", {
+              required: "내용 작성은 필수입니다.",
+            })}
+          />
         </InputWrapper>
+        {errors.Contents && (
+          <small role="alert">{errors.Contents.message}</small>
+        )}
         <InputWrapper>
           <Label>주소</Label>
           <ZipcodeWrapper>
@@ -116,7 +127,7 @@ export default function BoardsNewPage() {
             id="youtube"
             name="radio-button"
             {...register("RadioButton", {
-              required: true,
+              required: "하나는 체크하셔야 합니다.",
             })}
           />
           <RadioLabel htmlFor="youtube">유튜브</RadioLabel>
@@ -125,11 +136,15 @@ export default function BoardsNewPage() {
             id="image"
             name="radio-button"
             {...register("RadioButton", {
-              required: true,
+              required: "하나는 체크하셔야 합니다.",
             })}
           />
           <RadioLabel htmlFor="image">사진</RadioLabel>
         </OptionWrapper>
+        <br></br>
+        {errors.RadioButton && (
+          <small role="alert">{errors.RadioButton.message}</small>
+        )}
         <ButtonWrapper>
           <SubmitButton>등록하기</SubmitButton>
         </ButtonWrapper>
